@@ -1,0 +1,25 @@
+CREATE DATABASE lawDB;
+
+// ensures that only the localhost can access the database
+CREATE USER 'luxemburg'@'localhost' IDENTIFIED BY 'izaya';
+GRANT ALL ON lawDB.* TO 'luxemburg'@'localhost';
+CREATE USER 'luxemburg'@'127.0.0.1' IDENTIFIED BY 'izaya';
+GRANT ALL ON lawDB.* TO 'luxemburg'@'127.0.0.1';
+
+USE lawDB;
+
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    password VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE laws (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    content TEXT NOT NULL
+);
+
+INSERT INTO users (username, email, password) VALUES ('sample_user', 'sample@example.com', '$2y$10$Qy3IV8UOy3aaLVMcGGea5Oy6X9hmc7blVVl8N7FPXsiMRCA.msbDq');
+INSERT INTO laws (title, content) VALUES ('Sample Law Title', 'This is the content of the sample law.');
