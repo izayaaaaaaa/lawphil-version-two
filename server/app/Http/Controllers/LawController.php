@@ -40,4 +40,21 @@ class LawController extends Controller
         $law->delete();
         return response()->json(null, 204);
     }
+
+    public function filterLaws(Request $request)
+    {
+        $query = Law::query();
+
+        if ($request->has('category')) {
+            $query->where('category', $request->category);
+        }
+
+        if ($request->has('keyword')) {
+            $query->where('content', 'like', '%' . $request->keyword . '%');
+        }
+
+        $laws = $query->get();
+
+        return response()->json($laws);
+    }
 }
