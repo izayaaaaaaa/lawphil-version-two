@@ -16,3 +16,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::middleware('auth.check')->group(function () {
+    Route::get('/dashboard', 'DashboardController@index');
+    // Add more routes that require auth check here
+});
