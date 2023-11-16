@@ -10,9 +10,9 @@ import axios from 'axios';
     return content.replace(sectionPattern, (match) => `<br /><br /><strong>${match}</strong><br />`);
   };
 
-  const fetchLawContent = async (hostUrl, lawID, setLawContent, setFormattedContent) => {
+  const fetchLawContent = async (lawID, setLawContent, setFormattedContent) => {
     try {
-      const response = await axios.get(`${hostUrl}/LawPhil2.0_Server/lawCRUD/getSpecificLaw.php`, {
+      const response = await axios.get(`http://localhost/LawPhil2.0_Server/lawCRUD/getSpecificLaw.php`, {
         params: {
           lawID: lawID, 
         },
@@ -41,22 +41,22 @@ import axios from 'axios';
     }
   };
 
-const LawContentPage = ({ hostUrl }) => {
+const LawContentPage = () => {
   const { lawID } = useParams();
   const [lawContent, setLawContent] = useState(null);
   const [formattedContent, setFormattedContent] = useState(null);
 
   useEffect(() => {
-    fetchLawContent(hostUrl, lawID, setLawContent, setFormattedContent);
+    fetchLawContent(lawID, setLawContent, setFormattedContent);
 
     const interval = setInterval(() => {
-      fetchLawContent(hostUrl, lawID, setLawContent, setFormattedContent);
+      fetchLawContent(lawID, setLawContent, setFormattedContent);
     }, 5000);
 
     return () => {
       clearInterval(interval);
     };
-  }, [lawID, hostUrl]);
+  }, [lawID]);
 
   return (
     <Form 

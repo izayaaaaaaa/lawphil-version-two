@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Link, useLocation } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch, faUser } from '@fortawesome/free-solid-svg-icons'; // Assuming you have the search icon imported
+import { faUser } from '@fortawesome/free-solid-svg-icons'; // Assuming you have the search icon imported
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import '../../styles/general.css';
@@ -18,7 +18,7 @@ import axios from 'axios';
 //      2. fix temp fix for logout - should not be visible when login/reg is visible (sessions?)
 //      3. fix dropdown option for admin dash - should only be visible for admin users
 
-const Navbar = ({ hostUrl }) => {
+const Navbar = () => {
     const location = useLocation();
     const navigate = useNavigate();
 
@@ -40,7 +40,7 @@ const Navbar = ({ hostUrl }) => {
     const handleLogout = async () => {
         try {
             // Request to the server-side script to end the session
-            await axios.get(`${hostUrl}/LawPhil2.0_Server/userCRUD/logoutUser.php`); // Adjust the path to match your server's URL structure
+            await axios.get(`http://localhost/api/users/logout`); // Adjust the path to match your server's URL structure
             setLoggedIn(false);
             navigate('/');
         } catch (error) {

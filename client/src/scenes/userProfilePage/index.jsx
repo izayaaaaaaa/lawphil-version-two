@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Form from './Form';
 
-const UserProfile = ({ hostUrl }) => {
+const UserProfile = () => {
     const [userData, setUserData] = useState(null);
     const [isEditing, setIsEditing] = useState(false);
     const [editedData, setEditedData] = useState({
@@ -26,7 +26,7 @@ const UserProfile = ({ hostUrl }) => {
         // Asynchronous function to fetch user data
         const fetchData = async () => {
             try {
-                const response = await fetch(`${hostUrl}/LawPhil2.0_Server/getUserProfile.php?userId=${userId}`);
+                const response = await fetch(`http://localhost/LawPhil2.0_Server/getUserProfile.php?userId=${userId}`);
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
@@ -42,7 +42,7 @@ const UserProfile = ({ hostUrl }) => {
         };
 
         fetchData();
-    }, [userId, hostUrl]); // Dependency array for effect
+    }, [userId]); // Dependency array for effect
     
     const handleEditClick = () => {
         setIsEditing(true);
@@ -51,7 +51,7 @@ const UserProfile = ({ hostUrl }) => {
     // Handler for saving updates to the user profile
     const handleSaveClick = async () => {
         try {
-            const response = await fetch(`${hostUrl}/LawPhil2.0_Server/updateUserProfile.php`, {
+            const response = await fetch(`http://localhost/LawPhil2.0_Server/updateUserProfile.php`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -78,7 +78,7 @@ const UserProfile = ({ hostUrl }) => {
     
     const handleDeleteClick = async () => {
         try {
-            const response = await fetch(`${hostUrl}/LawPhil2.0_Server/deleteUserProfile.php`, {
+            const response = await fetch(`http://localhost/LawPhil2.0_Server/deleteUserProfile.php`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

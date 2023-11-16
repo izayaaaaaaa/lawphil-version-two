@@ -17,7 +17,7 @@ const categories = [
   { label: 'AUSL Exclusive', value: 'AUSL Exclusive' },
 ];
 
-const SearchResultsPage = ({ hostUrl }) => {
+const SearchResultsPage = () => {
   const location = useLocation();
   const [searchResults, setSearchResults] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState(['All']);
@@ -29,7 +29,7 @@ const SearchResultsPage = ({ hostUrl }) => {
     // Function to fetch search results
     const fetchSearchResults = () => {
       Axios
-      .get(`${hostUrl}/LawPhil2.0_Server/lawCRUD/searchKeywordLaw.php`, {
+      .get(`http://localhost/LawPhil2.0_Server/lawCRUD/searchKeywordLaw.php`, {
         params: {
           searchQuery: searchQuery,
           selectedCategories: selectedCategories,
@@ -57,7 +57,7 @@ const SearchResultsPage = ({ hostUrl }) => {
     return () => {
       clearInterval(interval);
     };
-  }, [hostUrl, location.search, selectedCategories]);
+  }, [location.search, selectedCategories]);
 
   const handleCategoryChange = (e) => {
     const category = e.target.value;

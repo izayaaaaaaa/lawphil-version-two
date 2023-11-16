@@ -5,7 +5,7 @@ import Form from "./Form";
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const RegisterPage = ({ hostUrl }) => {
+const RegisterPage = () => {
     const navigate = useNavigate();
     
     const [formData, setFormData] = useState({
@@ -34,7 +34,7 @@ const RegisterPage = ({ hostUrl }) => {
             body: JSON.stringify(formData),
         };
         
-        const url = `${hostUrl}/LawPhil2.0_Server/userCRUD/registerUser.php`;
+        const url = `http://localhost/LawPhil2.0_Server/userCRUD/registerUser.php`;
         
         try {
             const response = await fetch(url, requestOptions);

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Law;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class LawController extends Controller
 {
@@ -41,17 +42,29 @@ class LawController extends Controller
         return response()->json(null, 204);
     }
 
-    public function filterLaws(Request $request)
+    public function filter(Request $request)
     {
         $query = Law::query();
 
-        if ($request->has('category')) {
+        if ($request->has('category') && $request->has('keyword')) {
+            $keyword = $request->keyword;
+            $query->where('category', $request->category)
+                ->where(function ($q) use ($keyword) {
+                    $q->where('title', 'like', '%' . $keyword . '%')
+                        ->orWhere('content', 'like', '%' . $keyword . '%');
+                });
+        } elseif ($request->has('category')) {
             $query->where('category', $request->category);
+        } elseif ($request->has('keyword')) {
+            $keyword = $request->keyword;
+            $query->where(function ($q) use ($keyword) {
+                $q->where('title', 'like', '%' . $keyword . '%')
+                    ->orWhere('content', 'like', '%' . $keyword . '%');
+            });
         }
 
-        if ($request->has('keyword')) {
-            $query->where('content', 'like', '%' . $request->keyword . '%');
-        }
+        // dd('Log statement reached');
+        Log::info($query->toSql(), ['bindings' => $query->getBindings()]);
 
         $laws = $query->get();
 

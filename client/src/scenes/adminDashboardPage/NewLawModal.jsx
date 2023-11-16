@@ -17,7 +17,7 @@ const lawCategories = [
   { id: 'AUSL Exclusive', name: 'AUSL Exclusive' },
 ];
 
-const NewLawModal = ({ show, handleClose, hostUrl, setLawsInCategory, selectedCategory}) => {
+const NewLawModal = ({ show, handleClose, setLawsInCategory, selectedCategory}) => {
   const [lawTitle, setLawTitle] = useState('');
   const [lawCategory, setLawCategory] = useState('');
   const [lawSubcategory, setLawSubcategory] = useState('');
@@ -48,14 +48,14 @@ const NewLawModal = ({ show, handleClose, hostUrl, setLawsInCategory, selectedCa
     };
   
     axios
-    .post(`${hostUrl}/LawPhil2.0_Server/lawCRUD/createLaw.php`, lawData)
+    .post(`http://localhost/LawPhil2.0_Server/lawCRUD/createLaw.php`, lawData)
     .then((response) => {
       console.log(response.data);
       handleClose();
 
       // Fetch the updated list of laws for the selected category
       axios
-        .get(`${hostUrl}/LawPhil2.0_Server/lawCRUD/getLawsByCategory.php?category=${selectedCategory}`)
+        .get(`http://localhost/LawPhil2.0_Server/lawCRUD/getLawsByCategory.php?category=${selectedCategory}`)
         .then((response) => {
           if (response.status === 200) {
             setLawsInCategory(response.data);

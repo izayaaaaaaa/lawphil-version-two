@@ -4,7 +4,7 @@ import { faEllipsisH } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import LawModal from './LawModal'; 
 
-const LawList = ({ hostUrl, lawsInCategory, activeCategoryName, setLawsInCategory }) => {
+const LawList = ({ lawsInCategory, activeCategoryName, setLawsInCategory }) => {
   const ellipsisStyle = {
     width: 'auto',
   };
@@ -18,7 +18,7 @@ const LawList = ({ hostUrl, lawsInCategory, activeCategoryName, setLawsInCategor
     console.log('Law clicked:', law);
 
     axios
-    .get(`${hostUrl}/LawPhil2.0_Server/lawCRUD/getLawContent.php?lawID=${law.id}`)
+    .get(`http://localhost/LawPhil2.0_Server/lawCRUD/getLawContent.php?lawID=${law.id}`)
     .then((response) => {
       console.log(response.data);
       setSelectedLawContent(response.data);
@@ -31,7 +31,7 @@ const LawList = ({ hostUrl, lawsInCategory, activeCategoryName, setLawsInCategor
   
   const handleSaveChanges = (editedContent) => {
     axios
-    .put(`${hostUrl}/LawPhil2.0_Server/lawCRUD/updateLawContent.php`, {
+    .put(`http://localhost/LawPhil2.0_Server/lawCRUD/updateLawContent.php`, {
       id: selectedLaw.id,
       content: editedContent,
     })
@@ -49,7 +49,7 @@ const LawList = ({ hostUrl, lawsInCategory, activeCategoryName, setLawsInCategor
 
   const handleDeleteLaw = (lawId) => {
     axios
-      .delete(`${hostUrl}/LawPhil2.0_Server/lawCRUD/deleteLaw.php?id=${lawId}`)
+      .delete(`http://localhost/LawPhil2.0_Server/lawCRUD/deleteLaw.php?id=${lawId}`)
       .then((response) => {
         console.log(response.data);
         // Handle success response

@@ -14,8 +14,6 @@ import UserProfile from './scenes/userProfilePage';
 import './styles/components.css';
 import './styles/general.css';
 
-const hostUrl = "http://172.19.20.225";
-
 const BackgroundWrapper = ({ children }) => {
     const location = useLocation();
     
@@ -56,15 +54,15 @@ function App() {
         <Router>
             <div className="App">
                 <BackgroundWrapper>
-                    <NavbarPage user={user} hostUrl={hostUrl} />
+                    <NavbarPage user={user}/>
                     <Routes>
-                        <Route path="/" element={<LoginPage hostUrl={hostUrl} />} />
-                        <Route path="/register" element={<RegisterPage hostUrl={hostUrl} />} />
-                        <Route path="/user-profile/:id" element={<ProtectedRoute element={<UserProfile hostUrl={hostUrl} />} allowedRoles={['user']} />} />
-                        <Route path="/search" element={<ProtectedRoute element={<SearchPage hostUrl={hostUrl} />} allowedRoles={['user']} />} />
-                        <Route path="/search-results" element={<ProtectedRoute element={<SearchResultsPage hostUrl={hostUrl} />} allowedRoles={['user']} />} />
-                        <Route path="/law-content/:lawID" element={<LawContentPage hostUrl={hostUrl} allowedRoles={['user']} />} />
-                        <Route path="/admin-dashboard" element={<ProtectedRoute element={<AdminDashboard hostUrl={hostUrl} />} allowedRoles={['admin']} />} />
+                        <Route path="/" element={<LoginPage />} />
+                        <Route path="/register" element={<RegisterPage />} />
+                        <Route path="/user-profile/:id" element={<ProtectedRoute element={<UserProfile />} allowedRoles={['user']} />} />
+                        <Route path="/search" element={<ProtectedRoute element={<SearchPage />} allowedRoles={['user']} />} />
+                        <Route path="/search-results" element={<ProtectedRoute element={<SearchResultsPage />} allowedRoles={['user']} />} />
+                        <Route path="/law-content/:lawID" element={<LawContentPage allowedRoles={['user']} />} />
+                        <Route path="/admin-dashboard" element={<ProtectedRoute element={<AdminDashboard />} allowedRoles={['admin']} />} />
                     </Routes>
                 </BackgroundWrapper>
             </div>

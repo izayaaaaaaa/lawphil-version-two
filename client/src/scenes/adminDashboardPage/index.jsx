@@ -28,7 +28,7 @@ const lawCategories = [
   { id: 'AUSL Exclusive', name: 'AUSL Exclusive' },
 ];
 
-const AdminDashboard = ({ hostUrl }) => {
+const AdminDashboard = () => {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [lawsInCategory, setLawsInCategory] = useState([]);
   const [activeCategoryName, setActiveCategoryName] = useState('');
@@ -40,7 +40,7 @@ const AdminDashboard = ({ hostUrl }) => {
   
     // Fetch laws in the selected category (title and subcategory only)
     axios
-      .get(`${hostUrl}/LawPhil2.0_Server/lawCRUD/getLawsByCategory.php?category=${categoryID}`)
+      .get(`http://localhost/LawPhil2.0_Server/lawCRUD/getLawsByCategory.php?category=${categoryID}`)
       .then((response) => {
         if (response.status === 200) {
           console.log('AdminDashboard Category Laws Array: ', response.data);
@@ -92,7 +92,6 @@ const AdminDashboard = ({ hostUrl }) => {
         </div>
         <div className="col-md-9">
           <LawList  
-            hostUrl={hostUrl} 
             lawsInCategory={lawsInCategory} 
             activeCategoryName={activeCategoryName}
             setLawsInCategory={setLawsInCategory}
@@ -104,7 +103,6 @@ const AdminDashboard = ({ hostUrl }) => {
         <NewLawModal 
           show={isModalOpen} 
           handleClose={() => setIsModalOpen(false)} 
-          hostUrl={hostUrl}
           setLawsInCategory={setLawsInCategory}
           selectedCategory={selectedCategory}
         />

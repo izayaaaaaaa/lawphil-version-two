@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 // FIXME:
     // 1. background color changed after I added the login/register pages back and changed the routing (App.js)
 
-const SearchPage = ({ hostUrl }) => {
+const SearchPage = () => {
     const navigate = useNavigate();
     
     const handleSearch = (event) => {

@@ -1,9 +1,0 @@
-{
-    "name": "turing/server",
-    "autoload": {
-        "psr-4": {
-            "Turing\\Server\\": "src/"
-        }
-    },
-    "require": {}
-}
