@@ -12,7 +12,7 @@ import axios from 'axios';
 // FIXME: 
 //  1. login form position is off
 
-const LoginPage = ({ hostUrl }) => {
+const LoginPage = () => {
     const { user, dispatch } = useContext(UserContext);   
     const navigate = useNavigate();
     
@@ -43,9 +43,8 @@ const LoginPage = ({ hostUrl }) => {
 
             // Navigate to the new destination
             try {
-                console.log('Navigated to:');
+                console.log('Navigated to:', destination);
                 navigate(destination);
-                console.log(destination);
             } catch (error) {
                 console.error('Navigation error:', error);
             }
@@ -55,38 +54,31 @@ const LoginPage = ({ hostUrl }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         
-        const requestOptions = {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(formData),
-        };
-        
-        const url = `${hostUrl}:8000/api/login`;
+        const url = `http://localhost:8000/api/login`;
         
         try {
-            const response = await axios.post(url, requestOptions);
-            const responseData = await response.json();
+            const response = await axios.post(url, formData, {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+            const responseData = response.data;
 
             console.log('Response Data: ', responseData);
             
-            if (responseData.success) {  // Only set user if login is successful and user is not set
+            if (responseData.token) {  // Check if the token is present in the response
                 const newUser = {
-                    id: responseData.id,
+                    id: responseData.id,  // Assuming these fields are part of your response
                     email: responseData.email,
                     is_admin: responseData.is_admin,
                 };
     
-                console.log('Dispatching user:', newUser);  // Log the user being dispatched
-    
-                // Dispatch the SET_USER action to update the global user state upon successful login
+                console.log('Dispatching user:', newUser);
                 dispatch({
                     type: 'SET_USER',
                     payload: newUser,
                 });
     
-                // Set the navigation flag
                 setShouldNavigate(true);
             } else {
                 console.log("Login failed:", responseData.message);
