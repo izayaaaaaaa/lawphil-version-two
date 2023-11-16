@@ -13,7 +13,7 @@ class UserController extends Controller
     public function register(Request $request)
     {
         $validatedData = $request->validate([
-            'name' => 'required|max:255',
+            'username' => 'required|max:255',
             'email' => 'required|email|unique:users',
             'password' => 'required|min:6',
         ]);
@@ -21,7 +21,7 @@ class UserController extends Controller
         $validatedData['password'] = Hash::make($validatedData['password']);
         $user = User::create($validatedData);
 
-        return response()->json(['message' => 'User registered successfully', 'user' => $user], 201);
+        return response()->json(['message' => 'Registration successful'], 200);
     }
 
     public function login(Request $request)
@@ -65,7 +65,7 @@ class UserController extends Controller
         }
 
         $validatedData = $request->validate([
-            'name' => 'max:255',
+            'username' => 'max:255',
             'email' => 'email|unique:users,email,' . $user->id,
             // Exclude current user's email from unique check
             'password' => 'min:6',

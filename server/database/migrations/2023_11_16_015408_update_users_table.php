@@ -13,8 +13,8 @@ class UpdateUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            // $table->string('username')->after('email'); // Add 'username' column
-            // $table->tinyInteger('is_admin')->default(0)->after('password'); // Add 'is_admin' column
+            $table->string('username')->after('email'); // Add 'username' column
+            $table->tinyInteger('is_admin')->default(0)->after('password'); // Add 'is_admin' column
         });
     }
 
@@ -26,7 +26,7 @@ class UpdateUsersTable extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            // $table->dropColumn(['username', 'is_admin']);
+            $table->dropColumn(['username']);
             $table->dropColumn('is_admin');
         });
     }

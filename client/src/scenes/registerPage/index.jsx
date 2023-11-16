@@ -4,6 +4,7 @@ import '../../styles/register.css';
 import Form from "./Form";
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const RegisterPage = () => {
     const navigate = useNavigate();
@@ -26,28 +27,14 @@ const RegisterPage = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         
-        const requestOptions = {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(formData),
-        };
-        
-        const url = `http://localhost/LawPhil2.0_Server/userCRUD/registerUser.php`;
+        const url = `http://localhost:8000/api/register`;
         
         try {
-            const response = await fetch(url, requestOptions);
+            const response = await axios.post(url, formData);
             
-            if (!response.ok) {
-                throw new Error(`Network response was not ok`);
-            }
-            
-            const responseData = await response.json(); 
-            
-            if (responseData.success) {
-                console.log("Registration successful!");
-                navigate('/');
+            if (response.data.success) {
+                console.log("Registration successful");
+                navigate('http://localhost:3000/');
             } 
         } catch (error) {
             console.log("Registration failed:", error.message);
