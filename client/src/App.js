@@ -14,7 +14,7 @@ import UserProfile from './scenes/userProfilePage';
 import './styles/components.css';
 import './styles/general.css';
 
-const hostUrl = "http://192.168.100.27";
+const hostUrl = "http://172.19.20.225";
 
 const BackgroundWrapper = ({ children }) => {
     const location = useLocation();

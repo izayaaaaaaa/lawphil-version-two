@@ -5,6 +5,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import '../../styles/general.css';
 import '../../styles/login.css';
 import Form from "./Form";
+import axios from 'axios';
 // TODO:
 //  1. feature to navigate to admin dashboard if account is an admin account
 
@@ -62,10 +63,10 @@ const LoginPage = ({ hostUrl }) => {
             body: JSON.stringify(formData),
         };
         
-        const url = `${hostUrl}/LawPhil2.0_Server/userCRUD/loginUser.php`;
+        const url = `${hostUrl}:8000/api/login`;
         
         try {
-            const response = await fetch(url, requestOptions);
+            const response = await axios.post(url, requestOptions);
             const responseData = await response.json();
 
             console.log('Response Data: ', responseData);

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\ValidationException;
 
 class UserController extends Controller
 {
@@ -16,7 +18,7 @@ class UserController extends Controller
             'password' => 'required|min:6',
         ]);
 
-        $validatedData['password'] = bcrypt($validatedData['password']);
+        $validatedData['password'] = Hash::make($validatedData['password']);
         $user = User::create($validatedData);
 
         return response()->json(['message' => 'User registered successfully', 'user' => $user], 201);
@@ -27,15 +29,22 @@ class UserController extends Controller
         $credentials = $request->only('email', 'password');
 
         if (Auth::attempt($credentials)) {
-            return response()->json(['message' => 'Login successful'], 200);
+            $user = Auth::user();
+            $token = $user->createToken('auth_token')->plainTextToken;
+
+            return response()->json(['message' => 'Login successful', 'token' => $token], 200);
         }
 
-        return response()->json(['message' => 'Invalid credentials'], 401);
+        throw ValidationException::withMessages([
+            'email' => ['The provided credentials are incorrect.'],
+        ]);
     }
 
     public function logout(Request $request)
     {
+        $request->user()->tokens()->delete(); // Revoke all tokens
         Auth::logout();
+
         return response()->json(['message' => 'Logout successful'], 200);
     }
 
@@ -56,10 +65,20 @@ class UserController extends Controller
             return response()->json(['message' => 'User not found'], 404);
         }
 
-        $user->update($request->all());
+        $validatedData = $request->validate([
+            'name' => 'max:255',
+            'email' => 'email|unique:users,email,' . $user->id,
+            // Exclude current user's email from unique check
+            'password' => 'min:6',
+        ]);
+
+        if (isset($validatedData['password'])) {
+            $validatedData['password'] = Hash::make($validatedData['password']); // Hash the new password
+        }
+
+        $user->update($validatedData);
         return response()->json(['message' => 'User updated successfully', 'user' => $user], 200);
     }
-
 
     public function destroy($id)
     {
