@@ -39,14 +39,21 @@ const Navbar = () => {
 
     const handleLogout = async () => {
         try {
-            // Request to the server-side script to end the session
-            await axios.get(`http://localhost/api/users/logout`); // Adjust the path to match your server's URL structure
+            const authToken = localStorage.getItem('auth_token');
+
+            await axios.post(`http://localhost:8000/api/logout`, {}, {
+                headers: {
+                    'Authorization': `Bearer ${authToken}`,
+                },
+            });
+
+            localStorage.removeItem('auth_token');
             setLoggedIn(false);
             navigate('/');
         } catch (error) {
             console.error('An error occurred during logout:', error);
         }
-    }
+    };
 
     const renderUserButtons = () => {
         if (!loggedIn) {

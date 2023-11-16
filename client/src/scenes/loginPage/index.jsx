@@ -78,6 +78,8 @@ const LoginPage = () => {
                     type: 'SET_USER',
                     payload: newUser,
                 });
+
+                localStorage.setItem('auth_token', responseData.token);
     
                 setShouldNavigate(true);
             } else {
