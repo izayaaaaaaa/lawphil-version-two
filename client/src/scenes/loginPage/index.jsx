@@ -79,6 +79,7 @@ const LoginPage = () => {
                 });
 
                 localStorage.setItem('auth_token', responseData.token);
+                localStorage.setItem('userID', responseData.id);
     
                 setShouldNavigate(true);
             } else {

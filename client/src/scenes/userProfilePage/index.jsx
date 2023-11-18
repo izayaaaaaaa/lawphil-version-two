@@ -12,17 +12,16 @@ const UserProfile = () => {
         email: '',
     });
     const navigate = useNavigate();
-    // const userId = localStorage.getItem('UserId');
     const { user } = useContext(UserContext);
-    const userId = user.id;
+    const userID = user.id;
 
     // const [modifiedUser, setModifiedUser] = useState(false);
     
     useEffect(() => {
-        console.log('User ID:', userId);
+        console.log('User ID:', userID);
 
         // Check for a valid userId before proceeding
-        if (!userId) {
+        if (!userID) {
             console.error('Invalid user ID');
             return;
         }
@@ -30,7 +29,12 @@ const UserProfile = () => {
         // Asynchronous function to fetch user data
         const fetchData = async () => {
             try {
-                const response = await axios.get(`http://localhost:8000/api/users/${userId}`);
+                const token = localStorage.getItem('auth_token');
+                const response = await axios.get(`http://localhost:8000/api/users/${userID}`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                    },
+                });
                 if (response.status !== 200) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
@@ -46,7 +50,7 @@ const UserProfile = () => {
         };
 
         fetchData();
-    }, [userId]); // Dependency array for effect
+    }, [userID]); // Dependency array for effect
     
     const handleEditClick = () => {
         setIsEditing(true);
@@ -61,7 +65,7 @@ const UserProfile = () => {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    id: userId,
+                    id: userID,
                     username: editedData.username,
                     email: editedData.email,
                 }),
@@ -88,7 +92,7 @@ const UserProfile = () => {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    id: userId,
+                    id: userID,
                 }),
             });
             if (!response.ok) {
