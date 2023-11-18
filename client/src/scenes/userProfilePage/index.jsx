@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { UserContext } from '../../userContext';
 import Form from './Form';
+import axios from 'axios';
 
 const UserProfile = () => {
     const [userData, setUserData] = useState(null);
@@ -10,7 +12,9 @@ const UserProfile = () => {
         email: '',
     });
     const navigate = useNavigate();
-    const userId = localStorage.getItem('UserId');
+    // const userId = localStorage.getItem('UserId');
+    const { user } = useContext(UserContext);
+    const userId = user.id;
 
     // const [modifiedUser, setModifiedUser] = useState(false);
     
@@ -26,11 +30,11 @@ const UserProfile = () => {
         // Asynchronous function to fetch user data
         const fetchData = async () => {
             try {
-                const response = await fetch(`http://localhost/LawPhil2.0_Server/getUserProfile.php?userId=${userId}`);
-                if (!response.ok) {
+                const response = await axios.get(`http://localhost:8000/api/users/${userId}`);
+                if (response.status !== 200) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
-                const data = await response.json();
+                const data = response.data;
                 if (data.error) {
                     throw new Error(`Backend error! ${data.error}`);
                 }

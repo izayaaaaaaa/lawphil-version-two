@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Link, useLocation } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser } from '@fortawesome/free-solid-svg-icons'; // Assuming you have the search icon imported
+import { faSearch, faUser } from '@fortawesome/free-solid-svg-icons'; // Assuming you have the search icon imported
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import '../../styles/general.css';
@@ -31,11 +31,11 @@ const Navbar = () => {
 
     const navbarSpacing = location.pathname !== '/' ? 'mb-5' : '';
     
-    // const handleLawsButtonClick = () => {
-    //     const queryParams = new URLSearchParams();
-    //     queryParams.append('searchQuery', '');
-    //     navigate(`/search-results/?${queryParams.toString()}`);
-    // };
+    const handleLawsButtonClick = () => {
+        const queryParams = new URLSearchParams();
+        queryParams.append('searchQuery', '');
+        navigate(`/search-results/?${queryParams.toString()}`);
+    };
 
     const handleLogout = async () => {
         try {
@@ -92,13 +92,13 @@ const Navbar = () => {
                     <FontAwesomeIcon icon={faUser} />
                 </button>
                 <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                    {/* {user.is_admin ? (
+                    {user.is_admin ? (
                         // If the user is an admin, show admin-related options
                         <li><Link to="/admin-dashboard" className="dropdown-item">Admin Dashboard</Link></li>
                     ) : (
                         // If the user is not an admin, show profile option
                         <li><Link to={`/user-profile/${user.id}`} className="dropdown-item">User Profile</Link></li>
-                    )} */}
+                    )}
                     {/* Common logout option for all users */}
                     <li><button className="dropdown-item" onClick={handleLogout}>Logout</button></li>
                 </ul>
@@ -106,29 +106,29 @@ const Navbar = () => {
         );
     };
 
-    // const renderSearchButtons = () => {
-    //     if (location.pathname !== "/" || location.pathname !== "/register") {
-    //         return (
-    //             <div className="btn-group">
-    //                 <div>
-    //                     {location.pathname.startsWith("/search") ? (
-    //                             <Link className="nav-link active" aria-current="page" to="/">
-    //                                 <FontAwesomeIcon icon={faSearch} />
-    //                             </Link>
-    //                         ) : (
-    //                             <button className="nav-link btn-link active" onClick={handleLawsButtonClick}>LAWS</button>
-    //                         )
-    //                     }
-    //                 </div>
-    //             </div>
-    //         );
-    //     } 
-    // }
+    const renderSearchButtons = () => {
+        if (location.pathname !== "/" || location.pathname !== "/register") {
+            return (
+                <div className="btn-group">
+                    <div>
+                        {location.pathname.startsWith("/search") ? (
+                                <Link className="nav-link active" aria-current="page" to="/">
+                                    <FontAwesomeIcon icon={faSearch} />
+                                </Link>
+                            ) : (
+                                <button className="nav-link btn-link active" onClick={handleLawsButtonClick}>LAWS</button>
+                            )
+                        }
+                    </div>
+                </div>
+            );
+        } 
+    }
 
     return (
         <nav className={`navbar navbar-expand-lg navbar-light bg-light ${navbarSpacing}`}>
             <div className="container-fluid">
-                {/* {renderSearchButtons()} */}
+                {renderSearchButtons()}
                 <Link className="navbar-brand" to="/search">ARELLANO LAW FOUNDATION</Link>
                 {renderUserButtons()}
             </div>

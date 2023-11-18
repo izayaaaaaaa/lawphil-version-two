@@ -66,10 +66,9 @@ const LoginPage = () => {
 
             console.log('Response Data: ', responseData);
             
-            if (responseData.token) {  // Check if the token is present in the response
+            if (responseData.token) {  
                 const newUser = {
-                    id: responseData.id,  // Assuming these fields are part of your response
-                    email: responseData.email,
+                    id: responseData.id,  
                     is_admin: responseData.is_admin,
                 };
     

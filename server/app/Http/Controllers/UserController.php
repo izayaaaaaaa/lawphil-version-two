@@ -32,7 +32,12 @@ class UserController extends Controller
             $user = Auth::user();
             $token = $user->createToken('auth_token')->plainTextToken;
 
-            return response()->json(['message' => 'Login successful', 'token' => $token], 200);
+            return response()->json([
+                'message' => 'Login successful',
+                'token' => $token,
+                'id' => $user->id,
+                'is_admin' => $user->is_admin
+            ], 200);
         }
 
         throw ValidationException::withMessages([
